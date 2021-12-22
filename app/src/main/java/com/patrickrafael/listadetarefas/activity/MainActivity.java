@@ -8,18 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickrafael.listadetarefas.R;
 import com.patrickrafael.listadetarefas.activity.AdicionarTarefaActivity;
 import com.patrickrafael.listadetarefas.adapter.AdapterLsita;
+import com.patrickrafael.listadetarefas.helper.RecyclerItemClickListner;
 import com.patrickrafael.listadetarefas.model.Tarefa;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private FloatingActionButton addFab;
     private RecyclerView recyclerView;
@@ -32,6 +34,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         addFab = findViewById(R.id.fabAdicionar);
+
+
+        //Evento de click na lista
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListner(
+                        getApplicationContext(),
+                        recyclerView,
+                        new RecyclerItemClickListner.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        }
+                )
+
+
+        );
 
 
         addFab.setOnClickListener(new View.OnClickListener() {
