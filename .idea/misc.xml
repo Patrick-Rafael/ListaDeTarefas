@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.403125" />
+        <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.403125" />
         <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/layout/activity_adicionar_tarefa.xml" value="0.35597826086956524" />
         <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/layout/activity_main.xml" value="0.24592391304347827" />
         <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/layout/lista_tarefa_adapter.xml" value="0.35597826086956524" />
+        <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/menu/menu_adicionar.xml" value="0.5" />
+        <entry key="..\:/Users/Patri/AndroidStudioProjects/ListadeTarefas/app/src/main/res/menu/menu_principal.xml" value="0.38697916666666665" />
       </map>
     </option>
   </component>
