@@ -59,6 +59,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                     String nomeTarefa = editTarefa.getText().toString();
                     if(!nomeTarefa.isEmpty()){
 
+
                          Tarefa tarefa = new Tarefa();
                          tarefa.setNomeTarefa( nomeTarefa);
                          tarefa.setId( tarefaAtual.getId() );
@@ -66,9 +67,9 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                          //Atualizar banco de dados
                         if(tarefaDAO.atualizar(tarefa)){
                             finish();
-                            Toast.makeText(getApplicationContext(), "Sucesso ao atualizar", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Sucesso ao atualizar", Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(getApplicationContext(), "Erro  ao atualizar", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Erro  ao atualizar", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -82,11 +83,11 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                         tarefa.setNomeTarefa(nomeTarefa);
 
                        if( tarefaDAO.salvar(tarefa)){
-                           Toast.makeText(getApplicationContext(), "Sucesso ao salvar Tarefa", Toast.LENGTH_LONG);
+                           Toast.makeText(getApplicationContext(), "Sucesso ao salvar Tarefa", Toast.LENGTH_LONG).show();
                            finish();
 
                        }else{
-                           Toast.makeText(getApplicationContext(), "Erro ao salvar Tarefa", Toast.LENGTH_LONG);
+                           Toast.makeText(getApplicationContext(), "Erro ao salvar Tarefa", Toast.LENGTH_LONG).show();
 
                        }
 

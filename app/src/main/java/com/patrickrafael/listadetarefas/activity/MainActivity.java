@@ -1,12 +1,14 @@
 package com.patrickrafael.listadetarefas.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.patrickrafael.listadetarefas.R;
@@ -28,12 +31,13 @@ import com.patrickrafael.listadetarefas.model.Tarefa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private FloatingActionButton addFab;
     private RecyclerView recyclerView;
     private AdapterLsita adapter;
     private List<Tarefa> listaDeTarefas = new ArrayList<>();
+    private Tarefa tarefaSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         addFab = findViewById(R.id.fabAdicionar);
         recyclerView = findViewById(R.id.recyclerView);
+
+
+
 
 
         //Evento de click na lista
@@ -59,14 +66,48 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(MainActivity.this, AdicionarTarefaActivity.class);
                         intent.putExtra("tarefaSelecionada", tarefaSelecionada);
-                        startActivity(intent);
+
+                        startActivity( intent );
 
 
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        Log.i("Teste", "Teste");
+
+                        //Recupera tarefa
+                        tarefaSelecionada = listaDeTarefas.get(position);
+
+
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+
+                        //Titulo e msg
+
+                        dialog.setTitle("Confirmar Exclusão");
+                        dialog.setMessage("Deseja excluir a tarefa: " + tarefaSelecionada.getNomeTarefa() + "?");
+
+                        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
+                                if(tarefaDAO.deletar(tarefaSelecionada)){
+                                    carregarlistaTarefas();
+                                    Toast.makeText(getApplicationContext(), "Sucesso ao excluir", Toast.LENGTH_LONG).show();
+
+
+
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Erro ao Excluir", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
+
+                        dialog.setNegativeButton("Não", null);
+
+                        dialog.create();
+                        dialog.show();
 
                     }
 
@@ -75,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
-        ));
+        ) );
 
         addFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void carregarlistaTarefas() {
+
+    public void carregarlistaTarefas(){
 
 
         //Configurar Adapter
