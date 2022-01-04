@@ -18,7 +18,6 @@ public class TarefaDAO implements ITarefaDAO {
     private SQLiteDatabase ler;
 
 
-
     public TarefaDAO(Context context) {
 
         DbHelper db = new DbHelper(context);
@@ -49,7 +48,21 @@ public class TarefaDAO implements ITarefaDAO {
 
     @Override
     public boolean atualizar(Tarefa tarefa) {
-        return false;
+
+        ContentValues cv = new ContentValues();
+        cv.put("nome", tarefa.getNomeTarefa());
+        try {
+            String[] args = {tarefa.getId().toString()};
+            escreve.update(DbHelper.TABELA_TAREFAS, cv,"id= ?",  args );
+            Log.e("Info", "Tarefa atualizada com sucesso");
+        } catch (Exception e) {
+            Log.e("Info", "Erro ao atualizar tarefa" + e.getMessage());
+            return false;
+
+        }
+
+
+        return true;
     }
 
     @Override
