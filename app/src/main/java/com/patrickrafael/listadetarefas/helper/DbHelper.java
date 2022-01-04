@@ -22,14 +22,14 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String sql = "CREATE TABLE IF NOT EXISTS " + TABELA_TAREFAS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " + " nome TEXT NOT NULL ); ";
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABELA_TAREFAS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, " + " nome TEXT NOT NULL);" ;
 
         try {
             db.execSQL(sql);
-            Log.i("Indo DB", "sucesso ao criar a tabela");
+            Log.i("Info DB", "sucesso ao criar a tabela");
 
         } catch (Exception e) {
-            Log.i("Indo DB", "Erro ao criar a tabela" + e.getMessage());
+            Log.i("Info DB", "Erro ao criar a tabela" + e.getMessage());
         }
 
     }
@@ -37,6 +37,17 @@ public class DbHelper extends SQLiteOpenHelper {
     //Fazer alterações na tabela que já existe
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+
+        String sql = "DROP TABLE IF EXISTS " + TABELA_TAREFAS + ";";
+
+        try {db.execSQL(sql);
+            onCreate(db);
+            Log.i("INFO DB","Sucesso ao atualizar app");
+        }catch (Exception e){
+            Log.i("INFO DB", "Erro ao atualizar app" + e.getMessage());
+
+
+        }
 
     }
 }

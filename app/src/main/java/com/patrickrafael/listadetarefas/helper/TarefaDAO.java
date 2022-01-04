@@ -1,12 +1,15 @@
 package com.patrickrafael.listadetarefas.helper;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.patrickrafael.listadetarefas.model.Tarefa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TarefaDAO implements ITarefaDAO {
@@ -14,12 +17,13 @@ public class TarefaDAO implements ITarefaDAO {
     private SQLiteDatabase escreve;
     private SQLiteDatabase ler;
 
+
+
     public TarefaDAO(Context context) {
 
         DbHelper db = new DbHelper(context);
         escreve = db.getWritableDatabase();
         ler = db.getReadableDatabase();
-
 
 
     }
@@ -31,10 +35,10 @@ public class TarefaDAO implements ITarefaDAO {
         cv.put("nome", tarefa.getNomeTarefa());
 
         try {
-            escreve.insert(DbHelper.TABELA_TAREFAS, null,cv );
-            Log.e("Info","Sucesso ao salvar tarefa");
-        }catch (Exception e){
-            Log.e("Info","Erro ao salvar tarefa" + e.getMessage());
+            escreve.insert(DbHelper.TABELA_TAREFAS, null, cv);
+            Log.e("Info", "Sucesso ao salvar tarefa");
+        } catch (Exception e) {
+            Log.e("Info", "Erro ao salvar tarefa" + e.getMessage());
             return false;
 
         }
@@ -55,6 +59,28 @@ public class TarefaDAO implements ITarefaDAO {
 
     @Override
     public List<Tarefa> listar() {
-        return null;
+
+        List<Tarefa> tarefas = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + DbHelper.TABELA_TAREFAS + ";";
+
+        Cursor cursor = ler.rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+            Tarefa tarefa = new Tarefa();
+
+
+            Long id = cursor.getLong(cursor.getColumnIndex("id"));
+            String nomeTarefa = cursor.getString(cursor.getColumnIndex("nome"));
+
+            tarefa.setId(id);
+            tarefa.setNomeTarefa(nomeTarefa);
+
+            tarefas.add(tarefa);
+
+        }
+        return tarefas;
+
+
     }
 }

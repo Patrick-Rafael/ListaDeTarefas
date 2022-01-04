@@ -22,12 +22,13 @@ import com.patrickrafael.listadetarefas.activity.AdicionarTarefaActivity;
 import com.patrickrafael.listadetarefas.adapter.AdapterLsita;
 import com.patrickrafael.listadetarefas.helper.DbHelper;
 import com.patrickrafael.listadetarefas.helper.RecyclerItemClickListner;
+import com.patrickrafael.listadetarefas.helper.TarefaDAO;
 import com.patrickrafael.listadetarefas.model.Tarefa;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton addFab;
     private RecyclerView recyclerView;
@@ -51,7 +52,15 @@ public class MainActivity extends AppCompatActivity  {
                 new RecyclerItemClickListner.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Log.i("Teste", "Teste");
+                        // Recupera tarefa para edição
+                        Tarefa tarefaSelecionada = listaDeTarefas.get(position);
+
+                        //Enviar para a tela adicionar tarefa
+
+                        Intent intent = new Intent(MainActivity.this, AdicionarTarefaActivity.class);
+                        intent.putExtra("tarefaSelecionada", tarefaSelecionada);
+                        startActivity(intent);
+
 
                     }
 
@@ -66,7 +75,7 @@ public class MainActivity extends AppCompatActivity  {
 
                     }
                 }
-        ) );
+        ));
 
         addFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,30 +91,15 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    @Override
-    protected void onStart() {
-        carregarlistaTarefas();
-        super.onStart();
-    }
-
-    public void carregarlistaTarefas(){
-
-        //Configurar Recycler
-        recyclerView = findViewById(R.id.recyclerView);
+    public void carregarlistaTarefas() {
 
 
         //Configurar Adapter
         adapter = new AdapterLsita(listaDeTarefas);
 
-        //Lista de tarefas estatica
-
-        Tarefa tarefa1 = new Tarefa();
-        tarefa1.setNomeTarefa("Ir ao mercado");
-        listaDeTarefas.add(tarefa1);
-
-        Tarefa tarefa2 = new Tarefa();
-        tarefa2.setNomeTarefa("Ir a feira");
-        listaDeTarefas.add(tarefa2);
+        //Lista de tarefas
+        TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
+        listaDeTarefas = tarefaDAO.listar();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -113,5 +107,12 @@ public class MainActivity extends AppCompatActivity  {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onStart() {
+        carregarlistaTarefas();
+        super.onStart();
+    }
+
 
 }
